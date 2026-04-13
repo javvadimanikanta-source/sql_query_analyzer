@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request
 import mysql.connector
 
-# ✅ CREATE APP FIRST
-app = Flask(__name__)
+app = Flask(__name__)                  ##FIRST CREATE APP
 
 @app.route('/')
 def home():
@@ -30,10 +29,9 @@ def analyze():
         cursor.execute("EXPLAIN " + query)
         result = cursor.fetchall()
 
-        # 🔥 DATA CHECK
         try:
             cursor.execute(query)
-            data = cursor.fetchall()
+            data = cursor.fetchall()            ##DATA CHECK WHEATHER IT EXIST OR NOT
             if len(data) == 0:
                 suggestions.append("No matching data found")
         except:
@@ -84,7 +82,7 @@ def analyze():
         if score > 70:
             status = "Good"
         elif score > 40:
-            status = "Average"
+            status = "Average"                                        ##GIVING SCORE BASED ON SQL QUERY GIVEN
         else:
             status = "Poor"
 
@@ -92,7 +90,7 @@ def analyze():
                                query=query,
                                execution_type=execution_type,
                                rows=rows_scanned,
-                               problems=problems,
+                               problems=problems,                      ##SENDING TO HTML FILE FOR UI
                                suggestions=suggestions,
                                fixed_query=fixed_query,
                                score=score,
@@ -105,6 +103,5 @@ def analyze():
         cursor.close()
         db.close()
 
-# ✅ MUST BE LAST
 if __name__ == "__main__":
     app.run(debug=True)
