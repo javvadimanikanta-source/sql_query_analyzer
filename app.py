@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request
 import mysql.connector
 
+<<<<<<< HEAD
 app = Flask(__name__)                  ##FIRST CREATE APP
+=======
+app = Flask(__name__)                           ##FIRST CREATE APP
+>>>>>>> ca6a31eafa3feb2a4771018650202ef0a265d833
 
 @app.route('/')
 def home():
@@ -12,7 +16,7 @@ def analyze():
     query = request.form['query']
 
     db = mysql.connector.connect(
-        host="localhost",
+        host="localhost",                                    ##MAIN FUNCTION TO OUR ANALYZER
         user="root",
         password="root",
         database="query_analyzer"
@@ -29,9 +33,16 @@ def analyze():
         cursor.execute("EXPLAIN " + query)
         result = cursor.fetchall()
 
+<<<<<<< HEAD
         try:
             cursor.execute(query)
             data = cursor.fetchall()            ##DATA CHECK WHEATHER IT EXIST OR NOT
+=======
+       
+        try:
+            cursor.execute(query)
+            data = cursor.fetchall()                      ##CHECKS IF ENTER QUERY EXISTS OR NOT 
+>>>>>>> ca6a31eafa3feb2a4771018650202ef0a265d833
             if len(data) == 0:
                 suggestions.append("No matching data found")
         except:
@@ -101,7 +112,7 @@ def analyze():
 
     finally:
         cursor.close()
-        db.close()
+        db.close()                   ##THIS SQL ANALYZER IS FOR MAINLY FOR QUERY OPTIMIZATION
 
 if __name__ == "__main__":
     app.run(debug=True)
