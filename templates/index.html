@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Query Analyzer</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .good { color: green; }
+        .avg { color: orange; }
+        .bad { color: red; }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        code {
+            background: #eee;
+            padding: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>SQL Query Analyzer</h1>
+
+    <form method="POST" action="/analyze">
+        <textarea name="query" placeholder="Enter SQL Query..."></textarea>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if query %}
+    <div class="result">
+        <h3>Execution</h3>
+        Type: {{execution_type}} <br>
+        Rows: {{rows}}
+
+        <h3>Score</h3>
+        <span class="{% if score > 70 %}good{% elif score > 40 %}avg{% else %}bad{% endif %}">
+            {{score}} / 100 ({{status}})
+        </span>
+
+        <h3>Problems</h3>
+        <ul>
+            {% for p in problems %}
+                <li>{{p}}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Suggestions</h3>
+        <ul>
+            {% for s in suggestions %}
+                <li>{{s}}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Auto Fixed Query</h3>
+        <code>{{fixed_query}}</code>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
